@@ -115,7 +115,7 @@
 #define BLE_EVBLEMSGID_ENCRYPTED                            18  //msgCtx = connection handle
 #define BLE_EVBLEMSGID_POWER_FAILURE_WARNING                19  //msgCtx = current supply voltage
 #define BLE_EVBLEMSGID_UNENCRYPTED                          20  //msgCtx = connection handle
-#define BLE_EVBLEMSGID_DEVICENAME_WRITE                     21  //msgCtx = connection handle 
+#define BLE_EVBLEMSGID_DEVICENAME_WRITE                     21  //msgCtx = connection handle
 
 //BLE Alert Levels
 #define BLE_ALERT_LEVEL_NO_ALERT                            0
@@ -228,7 +228,7 @@ function StartAdverts(adv as integer)
         rc = 0xEF00  // currently advertising
         AssertRC(rc, 204)
     endif
-endfunc rc        
+endfunc rc
 
 
 sub AdvMngrOnBleMsg(byval nMsgId as integer, byval nCtx as integer)
@@ -341,7 +341,7 @@ endfunc rc
 
 function RegNgrService()
     dim rc
-    
+
     rc = BleServiceNew(BLE_SERVICE_PRIMARY, hUuidNgrService, shNgr)
     AssertRC(rc, 321)
 
@@ -360,7 +360,7 @@ sub InitNgrService()
 endsub
 
 
-function SendForceData() 
+function SendForceData()
     dim rc
     rc = 1
     if notifyWait == 0 then
@@ -416,17 +416,17 @@ function HandlerBleMsg(byval nMsgId as integer, byval nCtx as integer)
     select nMsgId
         case BLE_EVBLEMSGID_CONNECT
             DbgMsgVal(" --- Connect : ", nCtx)
-        
+
         case BLE_EVBLEMSGID_DISCONNECT
             notifyWait = 0
             DbgMsgVal(" --- Disconnect : ", nCtx)
-        
+
         case BLE_EVBLEMSGID_DISPLAY_PASSKEY
             DbgMsgVal("Display Pairing Passkey ",nCtx)
-        
+
         case BLE_EVBLEMSGID_NEW_BOND
             DbgMsg(" +++ New Bond")
-  
+
         case BLE_EVBLEMSGID_UPDATED_BOND
             DbgMsg(" +++ Updated Bond")
 
@@ -446,7 +446,7 @@ function HandlerBleMsg(byval nMsgId as integer, byval nCtx as integer)
 
         case else
             DbgMsgVal("Unknown Ble Msg", nMsgId)
-    
+
     endselect
 
 endfunc 1
