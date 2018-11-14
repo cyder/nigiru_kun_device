@@ -174,21 +174,21 @@ dim force$
 
 
 
-sub AssertRC(byval rc as integer, byval tag as integer)
+sub AssertRC(byval rc, byval tag)
     if (ENABLE_DEBUG_PRINTS != 0) && (rc != 0) then
         print "Failed with ";integer.h' rc;" at tag ";tag;"\n"
     endif
 endsub
 
 
-sub DbgMsgVal(byval msg$ as string, byval vl as integer)
+sub DbgMsgVal(byval msg$, byval vl)
     if ENABLE_DEBUG_PRINTS != 0 then
         print msg$;" ";vl;"\n"
     endif
 endsub
 
 
-sub DbgMsg(byval msg$ as string)
+sub DbgMsg(byval msg$)
     if ENABLE_DEBUG_PRINTS != 0 then
         print msg$;"\n"
     endif
@@ -208,7 +208,7 @@ function StopAdverts()
 endfunc rc
 
 
-function StartAdverts(adv as integer)
+function StartAdverts(adv)
     dim rc
     if advState == 0 then
         if adv == -1 then
@@ -231,7 +231,7 @@ function StartAdverts(adv as integer)
 endfunc rc
 
 
-sub AdvMngrOnBleMsg(byval nMsgId as integer, byval nCtx as integer)
+sub AdvMngrOnBleMsg(byval nMsgId, byval nCtx)
     dim rc
 
     select nMsgId
@@ -254,7 +254,7 @@ function AdvMngrOnAdvTimeOut()
 endfunc advState
 
 
-sub InitAdvReports(advFlags as integer)
+sub InitAdvReports(advFlags)
     dim rc
 
     adRpt$=""
@@ -274,14 +274,14 @@ sub InitAdvReports(advFlags as integer)
 endsub
 
 
-function Disconnect(hc as integer)
+function Disconnect(hc)
     dim rc
     rc = BleDisconnect(hc)
     AssertRC(rc, 255)
 endfunc rc
 
 
-sub ConnMngrOnBleMsg(byval nMsgId as integer, byval nCtx as integer)
+sub ConnMngrOnBleMsg(byval nMsgId, byval nCtx)
     select nMsgId
         case BLE_EVBLEMSGID_CONNECT
             hConn = nCtx
@@ -374,7 +374,7 @@ function SendForceData()
 endfunc rc
 
 
-sub NgrOnCharCccd(byval nVal as integer)
+sub NgrOnCharCccd(byval nVal)
     notifyState = nVal
 endsub
 
@@ -391,7 +391,7 @@ sub OnStartUp()
 endsub
 
 
-function StartAds(adv as integer)
+function StartAds(adv)
     dim rc
     rc = StartAdverts(adv)
     AssertRC(rc, 372)
@@ -408,7 +408,7 @@ function HandlerBlrAdvTimOut()
 endfunc 0
 
 
-function HandlerBleMsg(byval nMsgId as integer, byval nCtx as integer)
+function HandlerBleMsg(byval nMsgId, byval nCtx)
     // inform libraries
     ConnMngrOnBleMsg(nMsgId, nCtx)
     AdvMngrOnBleMsg(nMsgId, nCtx)
@@ -452,7 +452,7 @@ function HandlerBleMsg(byval nMsgId as integer, byval nCtx as integer)
 endfunc 1
 
 
-function HandlerCharCccd(byval hChar as integer, byval nVal as integer)
+function HandlerCharCccd(byval hChar, byval nVal)
     if hChar == chNgrMeas then
         if nVal then
             if nVal == 2 then
