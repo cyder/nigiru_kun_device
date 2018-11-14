@@ -1,0 +1,481 @@
+#define ENABLE_DEBUG_PRINTS                                 1
+
+#define DEVICENAME                                          "NIGIRUKUN"
+#define DEVICENAME_WRITABLE                                 1
+#define APPEARANCE                                          0   // Unknown
+
+#define UUID_NIGIRUKUN_SERVICE                              "1db31f9a913744da9458a4e642211773"
+#define UUID_NIGIRUKUN_FORCE_CHAR                           "938e479a6f424b73ad28b61898263d71"
+
+#define MIN_CONN_INTERVAL                                   80000
+#define MAX_CONN_INTERVAL                                   100000
+#define SLAVE_LATENCY                                       1
+#define CONN_SUP_TIMEOUT                                    4000000
+#define DISCOVERY_MODE                                      BLE_DISCOVERABILITY_GENERAL
+#define MAX_DEVNAME_CHRS                                    10
+#define ADV_APPEARANCE                                      1
+#define ADV_INTERVAL_MS                                     25
+#define ADV_TIMEOUT_MS                                      300000
+
+#define ADV_WHITELIST_FILTER_POLICY                         ADV_FILTERPOLICY_ANY
+
+#define BLE_CONN_HANDLE_INVALID                             0xFFFF
+#define BLE_INVALID_UUID_HANDLE                             0
+#define BLE_INVALID_CHAR_HANDLE                             0
+#define BLE_INVALID_SERVICE_HANDLE                          0
+#define CIRCBUFFER_INVALID_HANDLE                           -1
+
+#define BLE_DISCOVERABILITY_NONE                            0
+#define BLE_DISCOVERABILITY_LIMITED                         1
+#define BLE_DISCOVERABILITY_GENERAL                         2
+#define BLE_DISCOVERABILITY_BOTH                            3
+
+#define BLE_APPEARANCE_UNKNOWN                              0
+#define BLE_APPEARANCE_GENERIC_PHONE                        64
+#define BLE_APPEARANCE_GENERIC_COMPUTER                     128
+#define BLE_APPEARANCE_GENERIC_WATCH                        192
+#define BLE_APPEARANCE_WATCH_SPORTS_WATCH                   193
+#define BLE_APPEARANCE_GENERIC_CLOCK                        256
+#define BLE_APPEARANCE_GENERIC_DISPLAY                      320
+#define BLE_APPEARANCE_GENERIC_REMOTE_CONTROL               384
+#define BLE_APPEARANCE_GENERIC_EYE_GLASSES                  448
+#define BLE_APPEARANCE_GENERIC_TAG                          512
+#define BLE_APPEARANCE_GENERIC_KEYRING                      576
+#define BLE_APPEARANCE_GENERIC_MEDIA_PLAYER                 640
+#define BLE_APPEARANCE_GENERIC_BARCODE_SCANNER              704
+#define BLE_APPEARANCE_GENERIC_THERMOMETER                  768
+#define BLE_APPEARANCE_THERMOMETER_EAR                      769
+#define BLE_APPEARANCE_GENERIC_HEART_RATE_SENSOR            832
+#define BLE_APPEARANCE_HEART_RATE_SENSOR_HEART_RATE_BELT    833
+#define BLE_APPEARANCE_GENERIC_BLOOD_PRESSURE               896
+#define BLE_APPEARANCE_BLOOD_PRESSURE_ARM                   897
+#define BLE_APPEARANCE_BLOOD_PRESSURE_WRIST                 898
+#define BLE_APPEARANCE_HUMAN_INTERFACE_DEVICE_HID_GENERIC   960
+#define BLE_APPEARANCE_KEYBOARD_HID_SUBTYPE                 961
+#define BLE_APPEARANCE_MOUSE_HID_SUBTYPE                    962
+#define BLE_APPEARANCE_JOYSTICK_HID_SUBTYPE                 963
+#define BLE_APPEARANCE_GAMEPAD_HID_SUBTYPE                  964
+#define BLE_APPEARANCE_DIGITIZER_TABLET_HID_SUBTYPE         965
+#define BLE_APPEARANCE_CARD_READER_HID_SUBTYPE              966
+#define BLE_APPEARANCE_DIGITAL_PEN_HID_SUBTYPE              967
+#define BLE_APPEARANCE_BARCODE_SCANNER_HID_SUBTYPE          968
+#define BLE_APPEARANCE_GENERIC_GLUCOSE_METER                1024
+
+#define BLE_SERVICE_SECONDARY                               0
+#define BLE_SERVICE_PRIMARY                                 1
+
+#define BLE_CHAR_METADATA_ATTR_NOT_PRESENT                  0
+
+#define BLE_ATTR_ACCESS_NONE                                0
+#define BLE_ATTR_ACCESS_OPEN                                1
+#define BLE_ATTR_ACCESS_ENC_NO_MITM                         2
+#define BLE_ATTR_ACCESS_ENC_WITH_MITM                       3
+#define BLE_ATTR_ACCESS_SIGNED_NO_MITM                      4
+#define BLE_ATTR_ACCESS_SIGNED_WITH_MITM                    5
+
+#define BLE_CHAR_PROPERTIES_BROADCAST                       0x01
+#define BLE_CHAR_PROPERTIES_READ                            0x02
+#define BLE_CHAR_PROPERTIES_WRITE_WO_RESPONSE               0x04
+#define BLE_CHAR_PROPERTIES_WRITE                           0x08
+#define BLE_CHAR_PROPERTIES_NOTIFY                          0x10
+#define BLE_CHAR_PROPERTIES_INDICATE                        0x20
+#define BLE_CHAR_PROPERTIES_AUTH_SIGNED_WR                  0x40
+#define BLE_CHAR_PROPERTIES_RELIABLE_WRITE                  0x80
+
+//Types of advert packets
+#define ADV_IND                                             0
+#define ADV_DIRECT_IND                                      1
+#define ADV_SCAN_IND                                        2
+#define ADV_NONCONN_IND                                     3
+
+//Types of filter policy
+#define ADV_FILTERPOLICY_ANY                                0
+#define ADV_FILTERPOLICY_SCANREQ                            1
+#define ADV_FILTERPOLICY_CONNREQ                            2
+#define ADV_FILTERPOLICY_BOTH                               3
+
+//BLE EVENT MSG IDs
+#define BLE_EVBLEMSGID_CONNECT                              0   //msgCtx = connection handle
+#define BLE_EVBLEMSGID_DISCONNECT                           1   //msgCtx = connection handle
+#define BLE_EVBLEMSGID_IMMEDIATE_ALERT_SERVICE_ALERT        2   //msgCtx = alert level
+#define BLE_EVBLEMSGID_LINKLOSS_SERVICE_ALERT               3   //msgCtx = alert level
+#define BLE_EVBLEMSGID_SERVICE_ERROR                        4   //msgCtx = resultcode
+#define BLE_EVBLEMSGID_HTS_INDICATION_STATE                 5   //msgCtx = new indication state 0=off, 1=on
+#define BLE_EVBLEMSGID_HTS_INDICATION_CNF                   6   //msgCtx = not used
+#define BLE_EVBLEMSGID_BPS_INDICATION_STATE                 7   //msgCtx = new indication state 0=off, 1=on
+#define BLE_EVBLEMSGID_BPS_INDICATION_CNF                   8   //msgCtx = not used
+#define BLE_EVBLEMSGID_DISPLAY_PASSKEY                      9   //msgCtx = passcode to display
+#define BLE_EVBLEMSGID_NEW_BOND                             10  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_AUTH_KEY_REQUEST                     11  //msgCtx = 1 for passkey, 2 for 16 byte OOB data
+#define BLE_EVBLEMSGID_HRS_NOTIFICATION_STATE               12  //msgCtx = new notification state 0=off, 1=on
+#define BLE_EVBLEMSGID_CONN_PARMS_UPDATE                    14  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_CONN_PARMS_UPDATE_FAIL               15  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_CONN_TO_BONDED_MASTER                16  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_UPDATED_BOND                         17  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_ENCRYPTED                            18  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_POWER_FAILURE_WARNING                19  //msgCtx = current supply voltage
+#define BLE_EVBLEMSGID_UNENCRYPTED                          20  //msgCtx = connection handle
+#define BLE_EVBLEMSGID_DEVICENAME_WRITE                     21  //msgCtx = connection handle
+
+//BLE Alert Levels
+#define BLE_ALERT_LEVEL_NO_ALERT                            0
+#define BLE_ALERT_LEVEL_MILD_ALERT                          1
+#define BLE_ALERT_LEVEL_HIGH_ALERT                          2
+
+//Pairing i/o capability
+#define BLE_IOCAPABILITY_NONE                               0
+#define BLE_IOCAPABILITY_DISPLAY_YESNO                      1
+#define BLE_IOCAPABILITY_KEYBOARD_ONLY                      2
+#define BLE_IOCAPABILITY_DISPLAY_ONLY                       3
+#define BLE_IOCAPABILITY_KEYBOARD_DISPLAY                   4
+#define BLE_IOCAPABILITY_ILLEGAL                            5
+
+//HCI Status Codes
+#define BLE_HCI_AUTHENTICATION_FAILURE                      0x05
+#define BLE_HCI_CONNECTION_TIMEOUT                          0x08
+
+//Some Useful Result Codes to help with documentation
+#define RESCODE_BLE_SVC_REGISTERED                          0x6018
+
+
+
+// global variable
+dim advState : advState = 0
+dim advType : advType = ADV_IND
+dim addr$ : addr$ = ""
+dim advInt : advInt = ADV_INTERVAL_MS
+dim advTmout : advTmout = ADV_TIMEOUT_MS
+dim advFilPol : advFilPol = ADV_WHITELIST_FILTER_POLICY
+
+dim adRpt$ : adRpt$ = ""
+dim scRpt$ : scRpt$ = ""
+
+dim hConn : hConn = BLE_CONN_HANDLE_INVALID
+
+dim shNgr
+dim chNgrMeas
+
+dim notifyWait : notifyWait = 0
+dim notifyState : notifyState = 0
+
+dim advFlags : advFlags = DISCOVERY_MODE
+
+dim uuid$
+
+uuid$ = UUID_NIGIRUKUN_SERVICE
+uuid$ = StrDehexize$(uuid$)
+dim hUuidNgrService : hUuidNgrService = BleHandleUuid128(uuid$)
+
+uuid$ = UUID_NIGIRUKUN_FORCE_CHAR
+uuid$ = StrDehexize$(uuid$)
+dim hUuidNgrForceChar : hUuidNgrForceChar = BleHandleUuid128(uuid$)
+
+dim force$
+
+
+
+sub AssertRC(byval rc, byval tag)
+    if (ENABLE_DEBUG_PRINTS != 0) && (rc != 0) then
+        print "Failed with ";integer.h' rc;" at tag ";tag;"\n"
+    endif
+endsub
+
+
+sub DbgMsgVal(byval msg$, byval vl)
+    if ENABLE_DEBUG_PRINTS != 0 then
+        print msg$;" ";vl;"\n"
+    endif
+endsub
+
+
+sub DbgMsg(byval msg$)
+    if ENABLE_DEBUG_PRINTS != 0 then
+        print msg$;"\n"
+    endif
+endsub
+
+
+function StopAdverts()
+    dim rc
+    rc = 0
+    if advState != 0 then
+        rc = BleAdvertStop()
+        AssertRC(rc, 178)
+        if rc == 0 then
+            advState = 0
+        endif
+    endif
+endfunc rc
+
+
+function StartAdverts(adv)
+    dim rc
+    if advState == 0 then
+        if adv == -1 then
+            adv = advType
+        elseif (adv < 0) || (adv > 3) then
+            rc = 0xEF01  // invalid advertising type
+            AssertRC(rc, 193)
+            exitfunc rc
+        endif
+        rc = BleAdvertStart(adv,addr$,advInt,advTmout,advFilPol)
+        AssertRC(rc, 197)
+        if rc == 0 then
+            advType = adv
+            advState = advType + 1
+        endif
+    else
+        rc = 0xEF00  // currently advertising
+        AssertRC(rc, 204)
+    endif
+endfunc rc
+
+
+sub AdvMngrOnBleMsg(byval nMsgId, byval nCtx)
+    dim rc
+
+    select nMsgId
+        case BLE_EVBLEMSGID_CONNECT
+            advState = 0
+
+        case BLE_EVBLEMSGID_DISCONNECT
+            rc = StartAdverts(-1)
+            AssertRC(rc, 218)
+
+        case else
+
+    endselect
+endsub
+
+
+
+function AdvMngrOnAdvTimeOut()
+  advState = 0
+endfunc advState
+
+
+sub InitAdvReports(advFlags)
+    dim rc
+
+    adRpt$=""
+    scRpt$=""
+
+    rc = BleAdvRptInit(adRpt$, advFlags, ADV_APPEARANCE, MAX_DEVNAME_CHRS)
+    AssertRC(rc, 239)
+
+    rc = BleScanRptInit(scRpt$)
+    AssertRC(rc, 242)
+
+    rc = BleAdvRptAddUuid128(scRpt$, hUuidNgrService)
+    AssertRC(rc, 245)
+
+    rc = BleAdvRptsCommit(adRpt$, scRpt$)
+    AssertRC(rc, 248)
+endsub
+
+
+function Disconnect(hc)
+    dim rc
+    rc = BleDisconnect(hc)
+    AssertRC(rc, 255)
+endfunc rc
+
+
+sub ConnMngrOnBleMsg(byval nMsgId, byval nCtx)
+    select nMsgId
+        case BLE_EVBLEMSGID_CONNECT
+            hConn = nCtx
+
+        case BLE_EVBLEMSGID_DISCONNECT
+            hConn = BLE_CONN_HANDLE_INVALID
+
+        case else
+
+    endselect
+endsub
+
+
+sub InitGapService()
+    dim rc
+    rc = BleGapSvcInit(DEVICENAME,DEVICENAME_WRITABLE,APPEARANCE,MIN_CONN_INTERVAL,MAX_CONN_INTERVAL,CONN_SUP_TIMEOUT,SLAVE_LATENCY)
+    AssertRC(rc, 276)
+endsub
+
+
+sub NgrEncode()
+    dim rc
+
+    rc = StrFill(force$, 0, 1)
+    rc = BleEncode8(force$, 0xAA, 0)
+
+    AssertRC(rc, 286)
+endsub
+
+
+function AddCharNgrMeas()
+    dim rc
+
+    dim mdAttr
+    dim mdCccd
+    dim mdSccd
+    dim chProp
+    dim wrCccd
+
+    mdAttr = BleAttrMetadata(BLE_ATTR_ACCESS_NONE, BLE_ATTR_ACCESS_NONE, 1, 0, rc)
+    AssertRC(rc, 300)
+
+    wrCccd = BLE_ATTR_ACCESS_OPEN
+    mdCccd = BleAttrMetadata(BLE_ATTR_ACCESS_OPEN, wrCccd, 2, 0, rc)
+    AssertRC(rc, 304)
+
+    mdSccd = BLE_CHAR_METADATA_ATTR_NOT_PRESENT
+    chProp = BLE_CHAR_PROPERTIES_NOTIFY
+    rc = BleCharNew(chProp, hUuidNgrForceChar, mdAttr, mdCccd, mdSccd)
+    AssertRC(rc, 309)
+
+    NgrEncode()
+    rc = BleCharCommit(shNgr, force$, chNgrMeas)
+    AssertRC(rc, 313)
+endfunc rc
+
+
+function RegNgrService()
+    dim rc
+
+    rc = BleServiceNew(BLE_SERVICE_PRIMARY, hUuidNgrService, shNgr)
+    AssertRC(rc, 321)
+
+    rc = AddCharNgrMeas()
+    AssertRC(rc, 324)
+
+    rc = BleServiceCommit(shNgr)
+    AssertRC(rc, 327)
+endfunc rc
+
+
+sub InitNgrService()
+    dim rc
+    rc = RegNgrService()
+    AssertRC(rc, 334)
+endsub
+
+
+function SendForceData()
+    dim rc
+    rc = 1
+    if notifyWait == 0 then
+        NgrEncode()
+        rc = BleCharValueNotify(chNgrMeas, force$)
+        AssertRC(rc, 344)
+        if rc == 0 then
+            notifyWait = 1
+        endif
+    endif
+endfunc rc
+
+
+sub NgrOnCharCccd(byval nVal)
+    notifyState = nVal
+endsub
+
+
+sub InitIO()
+endsub
+
+
+sub OnStartUp()
+    InitGapService()
+    InitNgrService()
+
+    InitAdvReports(advFlags)
+endsub
+
+
+function StartAds(adv)
+    dim rc
+    rc = StartAdverts(adv)
+    AssertRC(rc, 372)
+    if rc == 0 then
+        DbgMsgVal("Start Adverts", adv)
+    endif
+endfunc rc
+
+
+function HandlerBlrAdvTimOut()
+    if AdvMngrOnAdvTimeOut() == 0 then
+        DbgMsg("\nAdvert stopped via timeout")
+    endif
+endfunc 0
+
+
+function HandlerBleMsg(byval nMsgId, byval nCtx)
+    // inform libraries
+    ConnMngrOnBleMsg(nMsgId, nCtx)
+    AdvMngrOnBleMsg(nMsgId, nCtx)
+
+    select nMsgId
+        case BLE_EVBLEMSGID_CONNECT
+            DbgMsgVal(" --- Connect : ", nCtx)
+
+        case BLE_EVBLEMSGID_DISCONNECT
+            notifyWait = 0
+            DbgMsgVal(" --- Disconnect : ", nCtx)
+
+        case BLE_EVBLEMSGID_DISPLAY_PASSKEY
+            DbgMsgVal("Display Pairing Passkey ",nCtx)
+
+        case BLE_EVBLEMSGID_NEW_BOND
+            DbgMsg(" +++ New Bond")
+
+        case BLE_EVBLEMSGID_UPDATED_BOND
+            DbgMsg(" +++ Updated Bond")
+
+        case BLE_EVBLEMSGID_ENCRYPTED
+            DbgMsg(" +++ Encrypted Connection")
+
+        case BLE_EVBLEMSGID_CONN_TO_BONDED_MASTER
+            DbgMsgVal(" -- Conn to Bonded Master ",nCtx)
+
+        case BLE_EVBLEMSGID_AUTH_KEY_REQUEST
+            DbgMsgVal(" +++ Auth Key Request, type=",nCtx)
+
+        case BLE_EVBLEMSGID_CONN_PARMS_UPDATE
+
+        case BLE_EVBLEMSGID_CONN_PARMS_UPDATE_FAIL
+            DbgMsg(" ??? Conn Parm Negotiation FAILED")
+
+        case else
+            DbgMsgVal("Unknown Ble Msg", nMsgId)
+
+    endselect
+
+endfunc 1
+
+
+function HandlerCharCccd(byval hChar, byval nVal)
+    if hChar == chNgrMeas then
+        if nVal then
+            if nVal == 2 then
+                nVal = 1
+            else
+                nVal = 0
+            endif
+        endif
+        NgrOnCharCccd(nVal)
+        DbgMsgVal(" +++ NGR NOTIFY STATE = ", nVal)
+    endif
+endfunc 1
+
+
+// set event handlers
+onevent EVBLE_ADV_TIMEOUT   call HandlerBlrAdvTimOut
+onevent EVBLEMSG            call HandlerBleMsg
+onevent EVCHARCCCD          call HandlerCharCccd
+
+// main
+InitIO()
+OnStartUp()
+dim rc
+rc = StartAds(ADV_IND)
+
+waitevent
