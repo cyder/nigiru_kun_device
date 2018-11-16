@@ -380,6 +380,28 @@ endsub
 
 
 sub InitIO()
+    TimerStart(0, FSR_POLL_MS, 1)
+
+    rc = GpioSetFunc(GPIO_FSR_SENSOR_A, 1, 2)
+    AssertRC(rc, 386)
+    rc = GpioSetFunc(GPIO_FSR_SENSOR_B, 1, 2)
+    AssertRC(rc, 388)
+    rc = GpioSetFunc(GPIO_FSR_SENSOR_C, 1, 2)
+    AssertRC(rc, 390)
+    rc = GpioSetFunc(GPIO_FSR_SENSOR_D, 1, 2)
+    AssertRC(rc, 392)
+
+    // GPIO config
+    dim sensorGpioConfig$ = "\00\0C\00" // todo: explain the config
+
+    rc = GpioSetFuncEx(GPIO_TEMP_SENSOR_A, 3, sensorGpioConfig)
+    AssertRC(rc, 396)
+    rc = GpioSetFuncEx(GPIO_TEMP_SENSOR_B, 3, sensorGpioConfig)
+    AssertRC(rc, 398)
+    rc = GpioSetFuncEx(GPIO_TEMP_SENSOR_C, 3, sensorGpioConfig)
+    AssertRC(rc, 400)
+    rc = GpioSetFuncEx(GPIO_TEMP_SENSOR_D, 3, sensorGpioConfig)
+    AssertRC(rc, 402)
 endsub
 
 
@@ -399,6 +421,26 @@ function StartAds(adv)
         DbgMsgVal("Start Adverts", adv)
     endif
 endfunc rc
+
+
+function HandlerTimer0()
+    if hConn != BLE_CONN_HANDLE_INVALID then
+        if notifyState == 1 then
+            // todo: turn on the sensor
+            mv = Adc2Mv(GpioRead(GPIO_FSR_SENSOR_A))
+            // todo: turn off the sensor
+            if mv > threshold then
+                // todo: vibration
+            endif
+            if notifyWait == 0 then
+                if SendForceData() == 0 then
+                    notifyWait = 1
+                    DbgMsg("\nSent force data")
+                endif
+            endif
+        endif
+    endif
+endfunc 1
 
 
 function HandlerBlrAdvTimOut()
@@ -468,6 +510,7 @@ endfunc 1
 
 
 // set event handlers
+onevent EVTMR0              call HanderTimer0
 onevent EVBLE_ADV_TIMEOUT   call HandlerBlrAdvTimOut
 onevent EVBLEMSG            call HandlerBleMsg
 onevent EVCHARCCCD          call HandlerCharCccd
