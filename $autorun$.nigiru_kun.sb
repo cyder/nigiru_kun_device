@@ -701,12 +701,16 @@ function HandlerCharVal(byval hChar, byval offset, byval len)
     dim rc
     dim s$
     if hChar == chNgrThresh then
+        rc = BleCharValueRead(chNgrThresh, s$)
+        AssertRC(rc, 710)
         rc = BleDecodeU16(s$, internalThresh, 0)
         AssertRC(rc, 637)
         DbgMsgVal("\n Write thresh: ", internalThresh)
     endif
 
     if hChar == chNgrCount then
+        rc = BleCharValueRead(chNgrCount, s$)
+        AssertRC(rc, 719)
         rc = BleDecode32(s$, internalCount, 0)
         AssertRC(rc, 643)
         DbgMsgVal("\n Write count: ", internalCount)
