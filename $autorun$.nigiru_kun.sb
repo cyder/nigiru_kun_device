@@ -575,11 +575,11 @@ function HandlerTimer0()
     fC = fC * alphaC / 1000 - beta
     fD = fD * alphaD / 1000 - beta
 
-    dim a : a = 40
-    internalForceA = fA / a
-    internalForceB = fB / a
-    internalForceC = fC / a
-    internalForceD = fD / a
+    dim a : a = 65
+    internalForceA = Max(fA / a, 0)
+    internalForceB = Max(fB / a, 0)
+    internalForceC = Max(fC / a, 0)
+    internalForceD = Max(fD / a, 0)
 
     dim s
     s = internalForceA + internalForceB + internalForceC + internalForceD
