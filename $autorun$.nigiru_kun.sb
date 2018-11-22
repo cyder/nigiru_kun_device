@@ -1,6 +1,6 @@
 #define ENABLE_DEBUG_PRINTS                                 1
 
-#define FSR_POLL_MS                                         100
+#define FSR_POLL_MS                                         25
 #define GPIO_FSR_SENSOR_A                                   4
 #define GPIO_FSR_SENSOR_B                                   3
 #define GPIO_FSR_SENSOR_C                                   2
@@ -553,6 +553,7 @@ endfunc rc
 #define STATE_PULLED              1
 
 dim ngrState : ngrState = STATE_PULLED
+dim clockCount : clockCount = 0
 
 function HandlerTimer0()
     GpioWrite(GPIO_FSR_EN, 1)
@@ -562,13 +563,7 @@ function HandlerTimer0()
     internalForceD = GpioRead(GPIO_FSR_SENSOR_D)
     GpioWrite(GPIO_FSR_EN, 0)
 
-    if hConn != BLE_CONN_HANDLE_INVALID then
-        if forceNotifyState == 1 then
-            if SendForceData() == 0 then
-                //DbgMsg("\nSent force data")
-            endif
-        endif
-    endif
+
 
     dim fA, fB, fC, fD
     fA = ( 1023 - internalForceA ) * 1000 / internalForceA - beta
@@ -589,8 +584,21 @@ function HandlerTimer0()
     dim s
     s = internalForceA + internalForceB + internalForceC + internalForceD
 
-    DbgMsgVal("s: ", s)
-    DbgMsgVal("state: ", ngrState)
+    //DbgMsgVal("s: ", s)
+    //DbgMsgVal("state: ", ngrState)
+
+    if clockCount == 4 then
+        clockCount = 0
+        if hConn != BLE_CONN_HANDLE_INVALID then
+            if forceNotifyState == 1 then
+                if SendForceData() == 0 then
+                    DbgMsg("\nSent force data")
+                endif
+            endif
+        endif
+    else
+        clockCount = clockCount + 1
+    endif
 
     select ngrState
         case STATE_PULLED
@@ -625,7 +633,6 @@ function HandlerTimer0()
 
     //GpioWrite(GPIO_VIBRATION, VIBRATION_FREQ)
     //TimerStart(1, VIBRATION_MS, 0)
-
 endfunc 1
 
 
